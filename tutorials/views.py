@@ -26,11 +26,23 @@ def tutorial_details(request, pk):
 # def tutorial_list_published(request):
 #     # GET all published tutorials
 
-# create a new object
-# create and save a new Tutorial
 @api_view(['GET', 'POST', 'DELETE'])
 def tutorial_list(request):
-    ...
+    # retrieve objects (with condition)
+    # retrieve all Tutorials / find by title from PostgreSQL database
+    if request.method == 'GET':
+        tutorials = Tutorial.objects.all()
+
+        title = request.GET.get('title', None)
+        if title is not None:
+            tutorials = tutorials.filter(title__icontains=title)
+
+        tutorials_serializers = TutorialSerializers(tutorials, many=True)
+        return JsonResponse(tutorials_serializers.data, safe=False)
+        # 'safe=False' for objects serializeation
+
+    # create a new object
+    # create and save a new Tutorial
     elif request.method == 'POST':
         tutorial_data = JSONParser().parse(request)
         tutorial_serializer = TutorialSerializers(data=tutorial_data)
