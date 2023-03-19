@@ -26,7 +26,7 @@ def tutorial_list(request):
 
         tutorials_serializers = TutorialSerializers(tutorials, many=True)
         return JsonResponse(tutorials_serializers.data, safe=False)
-        # 'safe=False' for objects serializeation
+        # 'safe=False' for objects serialization
 
     # create a new object
     # create and save a new Tutorial
@@ -110,4 +110,10 @@ def tutorial_detail(request, pk):
 @api_view(['GET'])
 def tutorial_list_published(request):
     # GET all published tutorials
-    ...
+    tutorials = Tutorial.objects.filter(published=True)
+
+    # find all objects by condition
+    # find all objects with published = True
+    if request.method == 'GET':
+        tutorials_serializers = TutorialSerializers(tutorials, many=True)
+        return JsonResponse(tutorials_serializers.data, safe=False)
