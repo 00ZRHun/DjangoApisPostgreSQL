@@ -50,3 +50,14 @@ def tutorial_list(request):
             tutorial_serializer.save()
             return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def tutorial_detail(request, pk):
+    # ... tutorial = Tutorial.objects.get(pk=pk)
+
+    # retrieve a single object
+    # find a single Tutorial with an id
+    if request.method == 'GET':
+        tutorial_serializer = TutorialSerializers(tutorial)
+        return JsonResponse(tutorial_serializer.data)
