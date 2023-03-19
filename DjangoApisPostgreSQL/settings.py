@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # Tutorials application
     'tutorials.apps.TutorialsConfig',
+    # CORS
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
