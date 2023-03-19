@@ -12,22 +12,9 @@ from rest_framework.decorators import api_view
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def tutorial_details(request, pk):
-    # find tutorial by pk (id)
-    try:
-        tutorial = Tutorial.objects.get(pk=pk)
-    except Tutorial.DoesNotExist:
-        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-    #  GET / PUT / DELETE tutorial
-
-
-# @api_view(['GET'])
-# def tutorial_list_published(request):
-#     # GET all published tutorials
-
-@api_view(['GET', 'POST', 'DELETE'])
 def tutorial_list(request):
+    # GET list of tutorials, POST a new tutorial, DELETE all tutorials
+
     # retrieve objects (with condition)
     # retrieve all Tutorials / find by title from PostgreSQL database
     if request.method == 'GET':
@@ -72,3 +59,38 @@ def tutorial_detail(request, pk):
             tutorial_serializer.save()
             return JsonResponse(tutorial_serializer.data)
         return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def tutorial_detail(request, pk):
+    """ # find tutorial by pk (id)
+    try:
+        tutorial = Tutorial.objects.get(pk=pk)
+    except Tutorial.DoesNotExist:
+        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) """
+
+    #  GET / PUT / DELETE tutorial
+
+    # ... tutorial = Tutorial.objects.get(pk=pk)
+    # ...
+
+    # retrieve a single object
+    # find a single Tutorial with an id
+    if request.method == 'GET':
+        tutorial_serializer = TutorialSerializers(tutorial)
+        return JsonResponse(tutorial_serializer.data)
+
+    # update an object
+    # update a Tutorial by the id in the request
+    elif request.method == 'PUT':
+        tutorial_data = JSONParser().parse(request)
+        tutorial_serializer = TutorialSerializers(tutorial, data=tutorial_data)
+        if tutorial_serializer.is_valid():
+            tutorial_serializer.save()
+            return JsonResponse(tutorial_serializer.data)
+        return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def tutorial_list_published(request):
+    # GET all published tutorials
