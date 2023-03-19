@@ -63,16 +63,14 @@ def tutorial_detail(request, pk):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def tutorial_detail(request, pk):
-    """ # find tutorial by pk (id)
+    #  GET / PUT / DELETE tutorial
+    # ... tutorial = Tutorial.objects.get(pk=pk)
+    # ...
+    # find tutorial by pk (id)
     try:
         tutorial = Tutorial.objects.get(pk=pk)
     except Tutorial.DoesNotExist:
-        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) """
-
-    #  GET / PUT / DELETE tutorial
-
-    # ... tutorial = Tutorial.objects.get(pk=pk)
-    # ...
+        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     # retrieve a single object
     # find a single Tutorial with an id
@@ -90,7 +88,14 @@ def tutorial_detail(request, pk):
             return JsonResponse(tutorial_serializer.data)
         return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # delete an object
+    # delete a Tutorial with the specified id
+    elif request.method == 'DELETE':
+        tutorial.delete()
+        return JsonResponse({'message': 'Tutorial was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET'])
 def tutorial_list_published(request):
     # GET all published tutorials
+    ...
