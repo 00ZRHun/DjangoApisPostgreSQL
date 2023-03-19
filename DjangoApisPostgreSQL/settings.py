@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Django REST framework
     'rest_framework',
+    # Tutorials application
+    'tutorials.apps.TutorialsConfig',
 ]
 
 MIDDLEWARE = [
