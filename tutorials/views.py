@@ -50,6 +50,11 @@ def tutorial_list(request):
 def tutorial_detail(request, pk):
     # ... tutorial = Tutorial.objects.get(pk=pk)
     # ...
+    # find tutorial by pk (id)
+    try:
+        tutorial = Tutorial.objects.get(pk=pk)
+    except Tutorial.DoesNotExist:
+        return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     # retrieve a single object
     # find a single Tutorial with an id
