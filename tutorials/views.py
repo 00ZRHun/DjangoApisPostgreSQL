@@ -38,6 +38,13 @@ def tutorial_list(request):
             return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # delete all objects
+    # delete all Tutorials from database
+    elif request.method == 'DELETE':
+        count = Tutorial.objects.all().delete()
+        print(f"count = {count}")   # DEBUG
+        return JsonResponse({'message': '{} Tutorials were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def tutorial_detail(request, pk):
